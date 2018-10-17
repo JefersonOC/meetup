@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">RxJava-RxAndroid</string>
+    <string name="action_settings">Settings</string>
+    <string name="activity_title_home">Notas</string>
+    <string name="msg_no_notes">Nenhuma nota encontrada!</string>
+    <string name="lbl_new_note_title">Nova Nota</string>
+    <string name="lbl_edit_note_title">Editar Nota</string>
+    <string name="hint_enter_note">Digite sua nota!</string>
+</resources>
