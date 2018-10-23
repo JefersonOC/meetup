@@ -1,4 +1,4 @@
-package io.github.blackfishlabs.demo.service.impl;
+package io.github.blackfishlabs.demo.service;
 
 import io.github.blackfishlabs.demo.dao.entity.Note;
 import reactor.core.publisher.Flux;
