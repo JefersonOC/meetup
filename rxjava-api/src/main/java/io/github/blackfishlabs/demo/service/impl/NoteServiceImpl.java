@@ -21,10 +21,10 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public Mono<Note> updateNote(Note note, String id) {
-        return findOne(id).doOnSuccess(findBlog -> {
-            findBlog.setNote(note.getNote());
-            findBlog.setTimestamp(note.getTimestamp());
-            noteRepository.save(findBlog).subscribe();
+        return findOne(id).doOnSuccess(find -> {
+            find.setNote(note.getNote());
+            find.setTimestamp(note.getTimestamp());
+            noteRepository.save(find).subscribe();
         });
     }
 
@@ -43,6 +43,6 @@ public class NoteServiceImpl implements NoteService {
         return findOne(id).doOnSuccess(note -> {
             note.setDelete(true);
             noteRepository.save(note).subscribe();
-        }).flatMap(blog -> Mono.just(Boolean.TRUE));
+        }).flatMap(note -> Mono.just(Boolean.TRUE));
     }
 }

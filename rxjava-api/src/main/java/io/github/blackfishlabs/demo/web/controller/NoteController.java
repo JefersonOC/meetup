@@ -20,7 +20,7 @@ public class NoteController {
     @GetMapping("/all")
     public Flux<Note> findAll() {
         log.debug("findAll Notes");
-        return noteService.findAll();
+        return noteService.findAll().filter(n -> n.getDelete().equals(false));
     }
 
     @DeleteMapping("/{id}")
