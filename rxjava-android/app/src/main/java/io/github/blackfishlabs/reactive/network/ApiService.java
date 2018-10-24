@@ -24,9 +24,9 @@ public interface ApiService {
     @GET("notes/all")
     Single<List<Note>> fetchAllNotes();
 
-    @PUT("notes/edit")
-    Completable updateNote(@Body Note note);
+    @PUT("notes/edit/{id}")
+    Completable updateNote(@Body Note note, @Path("id") String noteId);
 
     @DELETE("notes/{id}")
-    Completable deleteNote(@Path("id") int noteId);
+    Completable deleteNote(@Path("id") String noteId);
 }

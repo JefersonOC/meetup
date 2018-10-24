@@ -1,5 +1,6 @@
 package io.github.blackfishlabs.reactive.view;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,8 +27,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -141,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .map(notes -> {
-                            Collections.sort(notes, (n1, n2) -> n2.getId() - n1.getId());
+                            Collections.sort(notes, (n1, n2) -> n2.getTimestamp().compareTo(n1.getTimestamp()));
                             return notes;
                         })
                         .subscribeWith(new DisposableSingleObserver<List<Note>>() {
@@ -195,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateNote(final Note note, final int position) {
         disposable.add(
-                apiService.updateNote(note)
+                apiService.updateNote(note, note.getId())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(new DisposableCompletableObserver() {
@@ -218,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                         }));
     }
 
-    private void deleteNote(final int noteId, final int position) {
+    private void deleteNote(final String noteId, final int position) {
         Log.e(TAG, "deleteNote: " + noteId + ", " + position);
         disposable.add(
                 apiService.deleteNote(noteId)
@@ -246,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    @SuppressLint("SimpleDateFormat")
     private void showNoteDialog(final boolean shouldUpdate, final Note note, final int position) {
         LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getApplicationContext());
         View view = layoutInflaterAndroid.inflate(R.layout.note_dialog, null);
@@ -280,6 +284,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (shouldUpdate && note != null) {
+                note.setNote(inputNote.getText().toString());
+                note.setTimestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
                 updateNote(note, position);
             } else {
                 createNote(new Note(inputNote.getText().toString()));
