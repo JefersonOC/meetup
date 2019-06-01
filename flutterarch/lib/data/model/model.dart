@@ -1,0 +1,1 @@
+export 'package:flutter_architecture/data/model/remote_post.dart';

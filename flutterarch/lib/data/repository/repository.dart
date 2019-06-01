@@ -1,0 +1,1 @@
+export 'package:flutter_architecture/data/repository/post_repository.dart';
